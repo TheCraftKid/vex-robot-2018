@@ -289,6 +289,18 @@ task raiseCap()
     raiseUpperArm();
 }
 
+task raiseWinch()
+{
+	motor[winch] = MAX_SPEED;
+	wait1Msec(25);
+}
+
+task lowerWinch()
+{
+	motor[winch] = -MAX_SPEED;
+	wait1Msec(25);
+}
+
 task lowerArm()
 {
     lowerLowerArm();
@@ -352,6 +364,29 @@ task handlePeripherals()
             }
         }
 
+        if (vexRT[Btn8D] == 1)
+        {
+            // open the claw
+            stopTask(releaseCap);
+            startTask(grabCap);
+        }
+        else if (vexRT[Btn8R] == 1)
+        {
+            stopTask(grabCap);
+            startTask(releaseCap);
+        }
+
+        // Winch logic
+        if (vexRT[Btn8U] == 1)
+        {
+        	stopTask(lowerWinch);
+        	startTask(raiseWinch);
+        }
+        else if (vexRT[Btn8L] == 1)
+        {
+        	stopTask(raiseWinch);
+        	startTask(lowerWinch);
+        }
         // Special buttons
         if (vexRT[Btn7U] == 1)
         {
@@ -380,17 +415,11 @@ void pre_auton()
 
 task autonomous()
 {
-    // TODO: Fill me in
+    driveStraightDistance(10, MAX_SPEED);
 }
 
-task userControl()
+task usercontrol()
 {
-    // TODO: Replace with main code
-}
-
-task main()
-{
-    // TODO: Transition to competition model
     init();
     startTask(MotorSlewRateTask);
     startTask(handleDriving);
@@ -400,4 +429,9 @@ task main()
     {
         // Why
     }
+}
+
+task main()
+{
+    startTask(userControl);
 }
