@@ -14,13 +14,53 @@
 #define MOTOR_COUNT 10
 #define MAX_SPEED 127
 
-typedef struct
+#define ARM_STATIONARY 10
+
+#define ARM_EXTENDING 20
+#define ARM_RETRACTING 21
+
+#define ARM_RAISING 30
+#define ARM_LOWERING 31
+
+/**
+ * A set of variables that track the current position of the lifting arm.
+ */
+typedef struct RobotArmState
 {
-    bool armRaising;
+    /**
+     * The distance from the origin measuring how far the arm has extended.
+     */
+    int x;
+
+    /**
+     * The distance from the arm's base height measuring how far the arm has raised.
+     */
+    int y;
+
+    /**
+     * Whether the arm is currently extending, retracting, or stationary.
+     *
+     * Use an equality operator with ARM_RAISING, ARM_LOWERING, or
+     * ARM_STATIONARY to determine state.
+     */
+    short armLiftState;
+
+    /**
+     * Whether the arm is currently extending, retracting, or stationary.
+     *
+     * Use an equality operator with ARM_EXTENDING, ARM_RETRACTING, or
+     * ARM_STATIONARY to determine state.
+     */
+    short armExtensionState;
+
+    /**
+     * True if the arm's claw is open.
+     */
     bool clawActive;
+
 } RobotArmState;
 
-typedef struct
+typedef struct RobotBaseState
 {
     /**
      * True if the robot is using 4-wheel drive.
@@ -42,7 +82,7 @@ typedef struct
 
 } RobotBaseState;
 
-typedef struct
+typedef struct RobotTurretState
 {
     /**
      * True if the firing mechanism is in the process of launching a ball.
@@ -53,22 +93,40 @@ typedef struct
      * True if a ball should be launched.
      */
     bool preppedToFire;
+
 } RobotTurretState;
 
-typedef struct
+typedef struct ArmModule
 {
     RobotArmState armState;
 } ArmModule;
 
-typedef struct
+typedef struct BaseModule
 {
     RobotBaseState baseState;
 } BaseModule;
 
-typedef struct
+typedef struct TurretModule
 {
     RobotTurretState turretState;
 } TurretModule;
+
+ArmModule armModule = {
+    {
+        0,
+        0,
+        ARM_STATIONARY,
+        ARM_STATIONARY,
+        false,
+    },
+};
+
+TurretModule turretModule = {
+    {
+        false,
+        true,
+    },
+};
 
 const short P2_OVERRIDE[5] = {
     0,
@@ -216,19 +274,34 @@ task handleControllerInputs()
 
 void rotateTurret(int ticks)
 {
-    motor[turretRotate] = ticks;
+    motorRequests[turretRotate] = ticks;
 }
 
 void raiseTurret(int ticks)
 {
-    motor[turretLift] = ticks;
+    motorRequests[turretLift] = ticks;
 }
 
+/**
+ * Activates the ball launcher for two seconds
+ */
 void fireTurret()
 {
-    motor[ballLauncher] = MAX_SPEED;
+    if (!turretModule.turretState.preppedToFire || turretModule.turretState.firing)
+    {
+        // TODO: Log inability to fire
+        return;
+    }
+    turretModule.turretState.firing = true; // Just to be safe
+    motorRequests[ballLauncher] = MAX_SPEED;
     wait1Msec(2000);
-    motor[ballLauncher] = 0;
+    motorRequests[ballLauncher] = 0;
+    turretModule.turretState.firing = false;
+}
+
+void resetTurret()
+{
+    // TODO: Check turret's potentiometer state, move to left or right based on distance from origin
 }
 
 task handleTurretControl()
@@ -239,15 +312,16 @@ task handleTurretControl()
         // TODO: Respond to button controls for turret
         if (vexRT[Btn8RXmtr2] == 1)
         {
-            // TODO: Fire ball
+            fireTurret();
         }
         if (vexRT[Btn8DXmtr2] == 1)
         {
-            // TODO: Reset turret
+            resetTurret();
         }
+
         int upness = vexRT[Ch3Xmtr2];
         int rotateness = vexRT[Ch1Xmtr2];
-        // TODO: Rotate and raise turret
+        raiseTurret(upness);
         wait1Msec(25);
     }
 }
