@@ -11,7 +11,8 @@ Foxbot and documentation for building the robot and competing in matches.
 
 ## Table of Contents
 - The [Architecture](./architecture.md) description outlines major robot systems.
-- The [Competition Checklist](./comp-checklist.md) contains 
+- The [Competition Checklist](./comp-checklist.md) contains instructions for
+  preparing for VEX competitions.
 - The [Config](./config.md) doc defines Foxbot-specific robot configuration.
 - The [Metagame](./metagame.md) doc details game knowledge and strategy.
 - The [Workflow](./workflow.md) doc describes the way to develop the robot.
