@@ -28,6 +28,7 @@ The servos for `leftDrive` and `rightDrive` use integrated encoder modules.
 | 10   | Two-wheel Drive      | rightDrive       | ✔️         |
 
 ## Analog Sensor Config
+
 | Port | Sensor System   | Sensor Type   | Code Name            |
 |------|-----------------|---------------|----------------------|
 | 1    | Turret Feedback | Potentiometer | turretTilt           |
@@ -40,6 +41,7 @@ The servos for `leftDrive` and `rightDrive` use integrated encoder modules.
 | 8    |                 |               |                      |
 
 ## Digital Sensor Config
+
 | Port | Sensor System   | Sensor Type           | Code Name        |
 |------|-----------------|-----------------------|------------------|
 | 1    | Distance        | Sonar (inch)          | leftSonar        |
