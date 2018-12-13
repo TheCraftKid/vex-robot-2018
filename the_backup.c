@@ -10,67 +10,7 @@
 //Main competition background code...do not modify!
 #include "Vex_Competition_Includes.c"
 
-#define MOTOR_COUNT 10
-
-// Array to hold requested speed for the motors
-int motorRequests[MOTOR_COUNT];
-
-// Array to hold "slew rate" for the motors, the maximum change every time the task
-// runs checking current mootor speed.
-int motorSlew[MOTOR_COUNT];
-
-task handleMotorSlew()
-{
-    int motorIndex;
-    int motorTmp;
-
-    // Initialize stuff
-    for (motorIndex = 0; motorIndex < MOTOR_COUNT; motorIndex++)
-    {
-        motorRequests[motorIndex] = 0;
-        motorSlew[motorIndex] = 10;
-    }
-
-    // run task until stopped
-    while (true)
-    {
-        // run loop for every motor
-        for (motorIndex = 0; motorIndex < MOTOR_COUNT; motorIndex++)
-        {
-            // So we don't keep accessing the internal storage
-            motorTmp = motor[motorIndex];
-
-            // Do we need to change the motor value ?
-            if (motorTmp != motorRequests[motorIndex])
-            {
-                // increasing motor value
-                if (motorRequests[motorIndex] > motorTmp)
-                {
-                    motorTmp += motorSlew[motorIndex];
-                    // limit
-                    if (motorTmp > motorRequests[motorIndex])
-                        motorTmp = motorRequests[motorIndex];
-                }
-
-                // decreasing motor value
-                if (motorRequests[motorIndex] < motorTmp)
-                {
-                    motorTmp -= motorSlew[motorIndex];
-                    // limit
-                    if (motorTmp < motorRequests[motorIndex])
-                        motorTmp = motorRequests[motorIndex];
-                }
-
-                // finally set motor
-                motor[motorIndex] = motorTmp;
-            }
-        }
-
-        // Wait approx the speed of motor update over the spi bus
-        wait1Msec(15);
-    }
-}
-
+#include "motor_slew.cpp"
 
 task handleLifter()
 {
@@ -129,7 +69,7 @@ task autonomous()
 	motorRequests[liftBottomRight] = -127;
 	motorRequests[liftTopLeft] = -127;
 	motorRequests[liftTopRight] = -127;
-	wait1Msec(200);
+	wait1Msec(1200);
 	motorRequests[liftBottomLeft] = 0;
 	motorRequests[liftBottomRight] = 0;
 	motorRequests[liftTopLeft] = 0;
@@ -137,10 +77,9 @@ task autonomous()
 	wait1Msec(500);
 	motorRequests[leftDrive] = 127;
 	motorRequests[rightDrive] = 127;
-	wait1Msec(800);
+	wait1Msec(8 * TEST);
 	motorRequests[leftDrive] = 0;
-	motorRequests[rightDrive] = 0;
-	
+	motorRequests[rightDrive] = 0;	
 }
 
 task usercontrol()
