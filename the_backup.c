@@ -48,9 +48,9 @@ task handleLifter()
 void performQuickFlip()
 {
 	motorRequests[flipper] = MAX_SPEED;
-	wait1Msec(400);
+	wait1Msec(200);
 	motorRequests[flipper] = -MAX_SPEED;
-	wait1Msec(400);
+	wait1Msec(200);
 	motorRequests[flipper] = 0;
 }
 
