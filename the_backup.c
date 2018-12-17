@@ -12,6 +12,8 @@
 
 #include "motor_slew.cpp"
 
+#define MAX_SPEED 127
+
 task handleLifter()
 {
 	while (true)
@@ -40,6 +42,31 @@ task handleLifter()
 			motorRequests[liftTopRight] = 0;
 		}
 		wait1Msec(50);
+	}
+}
+
+void performQuickFlip()
+{
+	motorRequests[flipper] = MAX_SPEED;
+	wait1Msec(400);
+	motorRequests[flipper] = -MAX_SPEED;
+	wait1Msec(400);
+	motorRequests[flipper] = 0;
+}
+
+task handleFlipper()
+{
+	while (true)
+	{
+		bool shouldFlip = vexRT[Btn8U] == 1;
+		if (shouldFlip)
+		{
+			performQuickFlip();
+		}
+		else
+		{
+
+		}
 	}
 }
 
@@ -77,15 +104,16 @@ task autonomous()
 	wait1Msec(500);
 	motorRequests[leftDrive] = 127;
 	motorRequests[rightDrive] = 127;
-	wait1Msec(8 * TEST);
+	wait1Msec(900);
 	motorRequests[leftDrive] = 0;
-	motorRequests[rightDrive] = 0;	
+	motorRequests[rightDrive] = 0;
 }
 
 task usercontrol()
 {
 	startTask(handleMotorSlew);
 	startTask(handleLifter);
+	startTask(handleFlipper);
 	startTask(handleDrive);
 	while (true)
 	{

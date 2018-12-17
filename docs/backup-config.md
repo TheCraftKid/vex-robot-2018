@@ -2,7 +2,7 @@
 This doc contains information related to motor and sensor setup and physical
 port configuration for the **legacy Foxbot**.
 
-**Motor and sensor config for legacy Foxbot can be found in its [header](../src/foxbot_legacy_onfig.h) file.**
+**Motor and sensor config for legacy Foxbot can be found in its [header](../src/foxbot_legacy_config.h) file.**
 
 ## Quick Notes
 As a general rule, for motors that are facing opposite directions but spin in
@@ -16,16 +16,16 @@ The servos for `leftDrive` and `rightDrive` use integrated encoder modules.
 
 | Port | Subcomponent          | Code Name       | Reversed? |
 |------|-----------------------|-----------------|-----------|
-| 1    | Left Motor            | leftDrive       | ❌         |
-| 2    | Left Lower Arm Motor  | liftBottomLeft  | ❌         |
-| 3    | Left Upper Arm Motor  | liftUpperLeft   | ❌         |
-| 4    | Right Lower Arm Motor | liftBottomRight | ✔️         |
-| 5    | Right Upper Arm Motor | liftUpperRight  | ✔️         |
-| 6    | N/A                   |                 | ❌         |
-| 7    | N/A                   |                 | ❌         |
-| 8    | N/A                   |                 | ❌         |
-| 9    | N/A                   |                 | ❌         |
-| 10   | Right Motor           | rightDrive      | ✔️         |
+| 1    | Drive Base            | leftDrive       | ❌         |
+| 2    | Lower Lift Arm        | liftBottomLeft  | ❌         |
+| 3    | Upper Lift Arm        | liftTopLeft     | ❌         |
+| 4    | Lower Lift Arm        | liftBottomRight | ✔️         |
+| 5    | Upper Lift Arm        | liftTopRight    | ✔️         |
+| 6    | Quick Cap Flipper     | flipper         | ❌         |
+| 7    |                       |                 |           |
+| 8    |                       |                 |           |
+| 9    |                       |                 |           |
+| 10   | Drive Base            | rightDrive      | ✔️         |
 
 ## Other
 The `I2C` port plugs directly into the motor for `leftDrive`.
