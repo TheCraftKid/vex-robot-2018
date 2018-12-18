@@ -194,13 +194,13 @@ bool checkOverrideCommmand()
 void driveLeftSide(int tickCount)
 {
     motorRequests[leftDrive] = tickCount;
-    motorRequests[driveAssist] = tickCount;
+    motorRequests[driveAssistLeft] = tickCount;
 }
 
 void driveRightSide(int tickCount)
 {
     motorRequests[rightDrive] = tickCount;
-    motorRequests[driveAssist] = tickCount;
+    motorRequests[driveAssistRight] = tickCount;
 }
 
 task handleMotorSlew()
@@ -274,12 +274,12 @@ task handleControllerInputs()
 
 void rotateTurret(int ticks)
 {
-    motorRequests[turretRotate] = ticks;
+
 }
 
 void raiseTurret(int ticks)
 {
-    motorRequests[turretLift] = ticks;
+    
 }
 
 /**
