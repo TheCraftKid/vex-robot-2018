@@ -14,18 +14,18 @@ Note: All motors except `leftDrive` and `rightDrive` are standard VEX Motor 393s
 using Motor Controller 29's.
 The servos for `leftDrive` and `rightDrive` use integrated encoder modules. 
 
-| Port | Subcomponent          | Code Name       | Reversed? |
-|------|-----------------------|-----------------|-----------|
-| 1    | Drive Base            | leftDrive       | ❌         |
-| 2    | Lower Lift Arm        | liftBottomLeft  | ❌         |
-| 3    | Upper Lift Arm        | liftTopLeft     | ❌         |
-| 4    | Lower Lift Arm        | liftBottomRight | ✔️         |
-| 5    | Upper Lift Arm        | liftTopRight    | ✔️         |
-| 6    | Quick Cap Flipper     | flipper         | ❌         |
-| 7    |                       |                 |           |
-| 8    |                       |                 |           |
-| 9    |                       |                 |           |
-| 10   | Drive Base            | rightDrive      | ✔️         |
+| Port | Subcomponent          | Code Name        | Reversed? |
+|------|-----------------------|------------------|-----------|
+| 1    | Drive Base            | leftDrive        | ❌         |
+| 2    | Lower Lift Arm        | liftBottomLeft   | ❌         |
+| 3    | Upper Lift Arm        | liftTopLeft      | ❌         |
+| 4    | Lower Lift Arm        | liftBottomRight  | ✔️         |
+| 5    | Upper Lift Arm        | liftTopRight     | ✔️         |
+| 6    | Quick Cap Flipper     | flipper          | ❌         |
+| 7    | Drive Base            | leftDriveAssist  | ❌         |
+| 8    | Drive Base            | rightDriveAssist | ✔️️         |
+| 9    |                       |                  |             |
+| 10   | Drive Base            | rightDrive       | ✔️         |
 
 ## Other
 The `I2C` port plugs directly into the motor for `leftDrive`.
