@@ -1,0 +1,3 @@
+# Foxbot Architecture
+
+TODO
